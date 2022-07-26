@@ -1,3 +1,4 @@
+import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
 import 'package:expense_tracker/ET/Sign_Up/signup_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _LoginState extends State<Login> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children:  <Widget>[
+          children: <Widget>[
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
               child: TextField(
@@ -40,25 +41,44 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
+            ButtonTheme(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              minWidth: 280.0,
+              child: RaisedButton(
+                textColor: Colors.white,
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Bottomnav()));
+                },
+                child: const Text("Log In", style: TextStyle(fontSize: 18),),
+              ),
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children:  [
-                const Padding(padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Text("Don't have an account ? ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Text(
+                    "Don't have an account ? ",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
                 ),
-                Padding(padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                  child: TextButton(style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
-                  ),onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Signup(),));
-                  }, child: Text("Sign Up")),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                  child: TextButton(
+                      style: TextButton.styleFrom(
+                          textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16)),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Signup(),
+                        ));
+                      },
+                      child: Text("Sign Up")),
                 )
               ],
             )
           ],
         ),
-
       ),
     );
   }

@@ -1,11 +1,20 @@
+import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
 import 'package:expense_tracker/ET/Sign_Up/login_layout.dart';
+import 'package:expense_tracker/ET/Sign_Up/signup_layout.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool login = true;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Login(),
+      home: (login?Bottomnav():Signup()),
     );
   }
 }
