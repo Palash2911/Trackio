@@ -1,7 +1,6 @@
-import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
-import 'package:expense_tracker/ET/Sign_Up/login_layout.dart';
-import 'package:expense_tracker/ET/Sign_Up/signup_layout.dart';
+import 'package:expense_tracker/ET/Sign_Up/LandingPage_Layout.dart';
 import 'package:flutter/material.dart';
+import 'firebase_options.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,7 +21,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: (login?Bottomnav():Signup()),
+      home: landingPage(),
     );
   }
 }

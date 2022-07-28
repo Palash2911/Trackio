@@ -7,6 +7,14 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1682246146/android.firebase_auth.iml" filepath="$PROJECT_DIR$/.idea/modules/1682246146/android.firebase_auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1682246146/android.firebase_auth.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1682246146/android.firebase_auth.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1682246146/android.firebase_auth.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1682246146/android.firebase_auth.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1682246146/android.firebase_auth.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1682246146/android.firebase_auth.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-405406495/android.firebase_core.iml" filepath="$PROJECT_DIR$/.idea/modules/-405406495/android.firebase_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-405406495/android.firebase_core.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-405406495/android.firebase_core.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-405406495/android.firebase_core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-405406495/android.firebase_core.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-405406495/android.firebase_core.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-405406495/android.firebase_core.unitTest.iml" />
     </modules>
   </component>
 </project>
