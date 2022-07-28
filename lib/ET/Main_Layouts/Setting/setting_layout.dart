@@ -1,15 +1,26 @@
 import 'package:expense_tracker/ET/Sign_Up/login_layout.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
 
-class Setting extends StatefulWidget {
-  const Setting({Key? key}) : super(key: key);
+class Setting extends StatelessWidget {
+  // const Setting({Key? key}) : super(key: key);
 
-  @override
-  State<Setting> createState() => _SettingState();
-}
+  Setting({required this.onSignout});
+  final VoidCallback onSignout;
 
-class _SettingState extends State<Setting> {
+  Future<void> _Signout() async {
+    try {
+      await Firebase.initializeApp();
+      await FirebaseAuth.instance.signOut();
+      User? user = FirebaseAuth.instance.currentUser;
+      onSignout();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,10 +110,7 @@ class _SettingState extends State<Setting> {
                   height: 45.0,
                   child: RaisedButton(
                     textColor: Colors.white,
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Login()));
-                    },
+                    onPressed: _Signout,
                     child: const Text(
                       "Log Out",
                       style: TextStyle(fontSize: 18),
@@ -117,3 +125,4 @@ class _SettingState extends State<Setting> {
     );
   }
 }
+

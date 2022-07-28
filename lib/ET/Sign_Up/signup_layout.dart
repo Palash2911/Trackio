@@ -1,19 +1,31 @@
 import 'package:expense_tracker/ET/Sign_Up/login_layout.dart';
+import 'package:firebase_core/firebase_core.dart';
 import "package:flutter/material.dart";
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:expense_tracker/firebase_options.dart';
+import 'package:expense_tracker/ET/Sign_Up/signup_layout.dart';
 
-class Signup extends StatefulWidget {
-  const Signup({Key? key}) : super(key: key);
+class Signup extends StatelessWidget {
+  // const Signup({Key? key}) : super(key: key);
+  Signup({required this.onSignIn});
+  final Function(User?) onSignIn;
 
-  @override
-  State<Signup> createState() => _SignupState();
-}
+  Future<void> _signInAnonymously() async {
+    try {
+      await Firebase.initializeApp();
+      final auth = await FirebaseAuth.instance.signInAnonymously();
+      onSignIn(auth.user);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
-class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SIGN UP', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('SIGN UP',
+            style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
@@ -62,12 +74,11 @@ class _SignupState extends State<Signup> {
               ),
             ),
             ButtonTheme(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               minWidth: 280.0,
               child: RaisedButton(
                 textColor: Colors.white,
-                onPressed: () {},
+                onPressed: _signInAnonymously,
                 child: const Text(
                   "Create Account",
                   style: TextStyle(fontSize: 18),
@@ -82,8 +93,7 @@ class _SignupState extends State<Signup> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Text(
                     "Already have an account ? ",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
                 Padding(
@@ -93,9 +103,9 @@ class _SignupState extends State<Signup> {
                           textStyle: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Login(),
-                        ));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //   builder: (context) => Login(onLogIn: onLogIn)
+                        // ));
                       },
                       child: Text("Log In")),
                 )

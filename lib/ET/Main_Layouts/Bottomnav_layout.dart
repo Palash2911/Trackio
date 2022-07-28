@@ -12,12 +12,12 @@ class Bottomnav extends StatefulWidget {
 
 class _BottomnavState extends State<Bottomnav> {
   int indx = 0;
-  var tit = "Dashboard";
+  var tit = "Dashboarfinal d";
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     Dashboard(),
     GraphW(),
-    Setting(),
+    Setting(onSignout: () {},),
   ];
 
   void _onItemTapped(int index) {

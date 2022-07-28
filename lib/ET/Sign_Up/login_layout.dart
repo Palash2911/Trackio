@@ -1,14 +1,26 @@
 import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
 import 'package:expense_tracker/ET/Sign_Up/signup_layout.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:expense_tracker/ET/Sign_Up/login_layout.dart';
 
-class Login extends StatefulWidget {
-  @override
-  State<Login> createState() => _LoginState();
-}
+class Login extends StatelessWidget {
 
-class _LoginState extends State<Login> {
-  bool flag = false;
+  Login({required this.onLogIn});
+  final Function(User) onLogIn;
+
+  Future<void> _loginAnonymously() async {
+    try {
+      await Firebase.initializeApp();
+      final auth = await FirebaseAuth.instance.signInAnonymously();
+      User? user = FirebaseAuth.instance.currentUser;
+      onLogIn(user!);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +58,7 @@ class _LoginState extends State<Login> {
               minWidth: 280.0,
               child: RaisedButton(
                 textColor: Colors.white,
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Bottomnav()));
-                },
+                onPressed: _loginAnonymously,
                 child: const Text("Log In", style: TextStyle(fontSize: 18),),
               ),
             ),
@@ -70,8 +80,8 @@ class _LoginState extends State<Login> {
                           textStyle: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Signup(),
-                        ));
+                        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Signup(),
+                        // ));
                       },
                       child: Text("Sign Up")),
                 )
