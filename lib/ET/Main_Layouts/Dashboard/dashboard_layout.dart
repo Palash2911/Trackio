@@ -1,14 +1,9 @@
 import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
 import 'package:flutter/material.dart';
 
-class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+class dashBoard extends StatelessWidget {
+  const dashBoard({Key? key}) : super(key: key);
 
-  @override
-  State<Dashboard> createState() => _DashboardState();
-}
-
-class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +34,7 @@ class _DashboardState extends State<Dashboard> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
               child: Align(
-                alignment: Alignment.centerLeft,
+                  alignment: Alignment.centerLeft,
                   child: Text("Upcoming Expenses ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
             ),
 
@@ -49,3 +44,4 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 }
+

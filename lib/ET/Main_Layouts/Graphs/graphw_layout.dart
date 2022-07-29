@@ -3,14 +3,9 @@ import 'package:expense_tracker/ET/Main_Layouts/Graphs/graphy_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
 
-class GraphW extends StatefulWidget {
-  const GraphW({Key? key}) : super(key: key);
+class graphW extends StatelessWidget {
+  const graphW({Key? key}) : super(key: key);
 
-  @override
-  State<GraphW> createState() => _GraphWState();
-}
-
-class _GraphWState extends State<GraphW> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +23,7 @@ class _GraphWState extends State<GraphW> {
                     child: RaisedButton(
                       textColor: Colors.white,
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => GraphW()));
+                        null;
                       },
                       child: const Text(
                         "Weekly",
@@ -44,7 +39,7 @@ class _GraphWState extends State<GraphW> {
                   child: RaisedButton(
                     textColor: Colors.white,
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => GraphM()));
+                      graphM();
                     },
                     child: const Text(
                       "Monthly",
@@ -59,7 +54,7 @@ class _GraphWState extends State<GraphW> {
                   child: RaisedButton(
                     textColor: Colors.white,
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => GraphY()));
+                      graphY();
                     },
                     child: const Text(
                       "Yearly",
@@ -81,3 +76,4 @@ class _GraphWState extends State<GraphW> {
     );
   }
 }
+

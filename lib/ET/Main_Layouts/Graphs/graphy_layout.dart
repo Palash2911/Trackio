@@ -2,14 +2,9 @@ import 'package:expense_tracker/ET/Main_Layouts/Graphs/graphm_layout.dart';
 import 'package:expense_tracker/ET/Main_Layouts/Graphs/graphw_layout.dart';
 import 'package:flutter/material.dart';
 
-class GraphY extends StatefulWidget {
-  const GraphY({Key? key}) : super(key: key);
+class graphY extends StatelessWidget {
+  const graphY({Key? key}) : super(key: key);
 
-  @override
-  State<GraphY> createState() => _GraphYState();
-}
-
-class _GraphYState extends State<GraphY> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +22,7 @@ class _GraphYState extends State<GraphY> {
                     child: RaisedButton(
                       textColor: Colors.white,
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => GraphW()));
+                        graphW();
                       },
                       child: const Text(
                         "Weekly",
@@ -43,7 +38,7 @@ class _GraphYState extends State<GraphY> {
                   child: RaisedButton(
                     textColor: Colors.white,
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => GraphM()));
+                      graphM();
                     },
                     child: const Text(
                       "Monthly",
@@ -58,7 +53,7 @@ class _GraphYState extends State<GraphY> {
                   child: RaisedButton(
                     textColor: Colors.white,
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => GraphY()));
+                      null;
                     },
                     child: const Text(
                       "Yearly",
@@ -80,3 +75,4 @@ class _GraphYState extends State<GraphY> {
     );
   }
 }
+

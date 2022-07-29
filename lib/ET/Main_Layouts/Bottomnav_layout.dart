@@ -15,8 +15,8 @@ class _BottomnavState extends State<Bottomnav> {
   var tit = "Dashboarfinal d";
 
   static final List<Widget> _widgetOptions = <Widget>[
-    Dashboard(),
-    GraphW(),
+    dashBoard(),
+    graphW(),
     Setting(onSignout: () {},),
   ];
 
