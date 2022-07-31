@@ -17,7 +17,7 @@ class Setting extends StatelessWidget {
       User? user = FirebaseAuth.instance.currentUser;
       onSignout();
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
