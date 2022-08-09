@@ -16,7 +16,7 @@ class _BottomnavState extends State<Bottomnav> {
   static final List<Widget> _widgetOptions = <Widget>[
     dashBoard(),
     graphW(),
-    Setting(onSignout: () {}),
+    // Setting(auth: , onSignout: () {}),
   ];
 
   void _onItemTapped(int index) {

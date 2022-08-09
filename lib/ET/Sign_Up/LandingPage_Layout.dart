@@ -1,16 +1,19 @@
 import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
+import 'package:expense_tracker/ET/Services/firebaseAuth.dart';
 import 'package:expense_tracker/ET/Sign_Up/login_layout.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class landingPage extends StatefulWidget {
+  landingPage({required this.auth});
+  final AuthClass auth;
   @override
   State<landingPage> createState() => _landingPageState();
 }
 
 class _landingPageState extends State<landingPage> {
-   User? _user;
+   Users? _user;
 
 
   @override
@@ -23,13 +26,13 @@ class _landingPageState extends State<landingPage> {
    Future<void> _getData() async{
     try {
       await Firebase.initializeApp();
-      User? user = FirebaseAuth.instance.currentUser;
+      Users? user = await widget.auth.currentUser();
       _updateUser(user);
     } catch (e) {
       print(e.toString());
     }
   }
-  void _updateUser(User? user) {
+  void _updateUser(Users? user) {
       setState((){
         _user = user;
       });
@@ -38,12 +41,13 @@ class _landingPageState extends State<landingPage> {
   @override
   Widget build(BuildContext context) {
     if (_user == null) {
-      print("user null hai bawa");
+      // print("user null hai bawa");
       return Login(
+        auth: widget.auth,
         onLogIn: _updateUser,
       );
     }
-    print("nice bhai");
+    // print("nice bhai");
     return Bottomnav();
   }
 }

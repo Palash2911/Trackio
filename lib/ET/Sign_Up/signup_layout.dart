@@ -1,3 +1,4 @@
+import 'package:expense_tracker/ET/Services/firebaseAuth.dart';
 import 'package:expense_tracker/ET/Sign_Up/login_layout.dart';
 import 'package:firebase_core/firebase_core.dart';
 import "package:flutter/material.dart";
@@ -7,14 +8,15 @@ import 'package:expense_tracker/ET/Sign_Up/signup_layout.dart';
 
 class Signup extends StatelessWidget {
   // const Signup({Key? key}) : super(key: key);
-  Signup({required this.onSignIn});
-  final Function(User?) onSignIn;
+  Signup({required this.auth});
+  // final Function(User) onSignIn;
+  final AuthClass auth;
 
   Future<void> _signInAnonymously() async {
     try {
       await Firebase.initializeApp();
       final auth = await FirebaseAuth.instance.signInAnonymously();
-      onSignIn(auth.user);
+      // onSignIn(auth.user!);
     } catch (e) {
       print(e.toString());
     }
