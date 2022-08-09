@@ -12,12 +12,11 @@ class Bottomnav extends StatefulWidget {
 
 class _BottomnavState extends State<Bottomnav> {
   int indx = 0;
-  var tit = "Dashboarfinal d";
-
+  var tit = ["Home","Graph","Setting"];
   static final List<Widget> _widgetOptions = <Widget>[
     dashBoard(),
     graphW(),
-    Setting(onSignout: () {},),
+    Setting(onSignout: () {}),
   ];
 
   void _onItemTapped(int index) {
@@ -29,7 +28,7 @@ class _BottomnavState extends State<Bottomnav> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(tit),
+        title: Text(tit[indx].toString()),
       ),
       body: Center(
         child: _widgetOptions.elementAt(indx),
