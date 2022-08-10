@@ -1,7 +1,6 @@
 import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
 import 'package:expense_tracker/ET/Services/firebaseAuth.dart';
 import 'package:expense_tracker/ET/Sign_Up/login_layout.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

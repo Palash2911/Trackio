@@ -37,7 +37,6 @@ class dashBoard extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text("Upcoming Expenses ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
             ),
-
           ],
         ),
       ),

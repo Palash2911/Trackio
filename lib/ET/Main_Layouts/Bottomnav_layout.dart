@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../Services/firebaseAuth.dart';
 
+
 class Bottomnav extends StatefulWidget {
   Bottomnav({required this.auth});
   // const Bottomnav({Key? key}) : super(key: key);
@@ -16,15 +17,16 @@ class Bottomnav extends StatefulWidget {
 
 class _BottomnavState extends State<Bottomnav> {
   int indx = 0;
+  Future<void> _sign() async{
+    // bottom();
+  }
   var tit = ["Home","Graph","Setting"];
-  static final List<Widget> _widgetOptions = <Widget>[
-    dashBoard(),
-    graphW(),
-    Setting(
-      // auth: auth,
-    ),
-  ];
-
+  List<Widget> _children() =>
+      [
+        dashBoard(),
+        graphW(),
+        Setting(auth: widget.auth,),
+      ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -34,12 +36,13 @@ class _BottomnavState extends State<Bottomnav> {
   }
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _widgetOptions = _children();
     return Scaffold(
       appBar: AppBar(
         title: Text(tit[indx].toString()),
       ),
       body: Center(
-        child: _widgetOptions.elementAt(indx),
+        child: _widgetOptions[indx],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

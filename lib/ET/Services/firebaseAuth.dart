@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class Users{
   Users({required this.uid});
@@ -8,7 +8,7 @@ class Users{
 abstract class AuthClass{
   Future<Users?> currentUser();
   Future<Users?> signIn();
-  Future<Users?> createUserEmailAndPwd(String email, String pwd);
+  Future<Users?> createUserEmailAndPwd(String email, String pwd, String Name, String Budget);
   Future<Users?> signInEmail(String email, String pwd);
   Future<void> signOut();
 }
@@ -37,17 +37,19 @@ class Auth implements AuthClass{
       return _userFromFirebase(auth.user!);
     }catch(e)
     {
-      print("null");
+      print(e);
     }
 
   }
-  Future<Users?> createUserEmailAndPwd(String email, String pwd) async{
+  Future<Users?> createUserEmailAndPwd(String email, String pwd, String Name, String Budget) async{
     try{
       final auth = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: pwd);
+      CollectionReference users = FirebaseFirestore.instance.collection('Users');
+      users.add({'Name': Name, 'Email': email, 'Monthly Budget': Budget, 'Monthly Spent': '0', 'UserID': auth.user?.uid.toString()});
       return _userFromFirebase(auth.user!);
     }catch(e)
     {
-      print("null");
+      print(e);
     }
   }
   Future<void> signOut() async{

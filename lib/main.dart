@@ -1,7 +1,6 @@
 import 'package:expense_tracker/ET/Sign_Up/LandingPage_Layout.dart';
 import 'package:flutter/material.dart';
 import 'ET/Services/firebaseAuth.dart';
-import 'firebase_options.dart';
 
 void main() {
   runApp(MyApp());

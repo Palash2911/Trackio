@@ -1,22 +1,26 @@
 import 'package:expense_tracker/ET/Services/firebaseAuth.dart';
-import 'package:expense_tracker/ET/Sign_Up/login_layout.dart';
+import 'package:expense_tracker/ET/Sign_Up/LandingPage_Layout.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
 
-class Setting extends StatelessWidget {
+class Setting extends StatefulWidget {
   // const Setting({Key? key}) : super(key: key);
+  // final FunctionStringCallback callback;
+  // Setting({required this.callback});
+  Setting({required this.auth});
+  final AuthClass auth;
 
-  // Setting({required this.auth});
-  // final AuthClass auth;
+  @override
+  State<Setting> createState() => _SettingState();
+}
+
+class _SettingState extends State<Setting> {
+  bool signout = false;
 
   Future<void> _Signout() async {
-    // try {
-    //   await auth.signOut();
-    // } catch (e) {
-    //   print(e.toString());
-    // }
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+         context ,MaterialPageRoute(builder: (context) => landingPage(auth: widget.auth)));
   }
 
   @override
@@ -107,10 +111,7 @@ class Setting extends StatelessWidget {
                 height: 45.0,
                 child: RaisedButton(
                   textColor: Colors.white,
-                  onPressed: (){
-                    FirebaseAuth.instance.signOut();
-                    print("dvfsdav");
-                  },
+                  onPressed: _Signout,
                   child: const Text(
                     "Log Out",
                     style: TextStyle(fontSize: 18),

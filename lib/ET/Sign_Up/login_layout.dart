@@ -1,6 +1,4 @@
 import 'package:expense_tracker/ET/Services/firebaseAuth.dart';
-import 'package:expense_tracker/ET/Sign_Up/signup_layout.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -27,18 +25,27 @@ class _LoginState extends State<Login> {
 
 
   bool checker = false;
+  bool signuplogin = false;
 
   final TextEditingController _emailcontrol = TextEditingController();
   final TextEditingController _pwdcontrol = TextEditingController();
+  final TextEditingController _namecontrol = TextEditingController();
+  final TextEditingController _budgetcontrol = TextEditingController();
   String get _email => _emailcontrol.text;
   String get _pwd => _pwdcontrol.text;
+  String get _name => _namecontrol.text;
+  String get _budget => _budgetcontrol.text;
 
-  void _signinEmail(BuildContext context)
-  {
-    //TODO
+
+  void _signuplogin(){
+    setState(() {
+      signuplogin = !signuplogin;
+    });
   }
 
   void _loginbtn() async {
+    if(signuplogin==false)
+      {
         Users? user = await widget.auth.signInEmail(_email, _pwd);
         if(user==null)
           {
@@ -47,6 +54,18 @@ class _LoginState extends State<Login> {
             });
           }
         widget.onLogIn(user!);
+      }
+    else
+      {
+        Users? user = await widget.auth.createUserEmailAndPwd(_email, _pwd, _name, _budget);
+        if(user==null)
+        {
+          setState(() {
+            checker = true;
+          });
+        }
+        widget.onLogIn(user!);
+      }
   }
 
   @override
@@ -59,12 +78,24 @@ class _LoginState extends State<Login> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          checker==true?Text(""):(Text('wish')),
+          // checker==true?Text(""):(Text('wish')),
+           signuplogin?  Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            child: TextField(
+              controller: _namecontrol,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Enter Your Name",
+              ),
+            ),
+          ):const Padding(
+             padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             child: TextField(
               controller: _emailcontrol,
-              decoration:  InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Enter Email",
                 hintText: "John@gmail.com",
@@ -81,7 +112,7 @@ class _LoginState extends State<Login> {
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Enter Password",
                 // errorText: _validator(_pwd) ? null : "Password can't be empty"
@@ -89,23 +120,35 @@ class _LoginState extends State<Login> {
               textInputAction: TextInputAction.done,
             ),
           ),
+          signuplogin?  Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            child: TextField(
+              controller: _budgetcontrol,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Enter Your Monthly Budget (in Rs. )",
+              ),
+            ),
+          ):const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          ),
           ButtonTheme(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
             minWidth: 280.0,
             child: RaisedButton(
               textColor: Colors.white,
               onPressed: () => _loginbtn(),
-              child: const Text("Log In", style: TextStyle(fontSize: 18),),
+              child: !signuplogin?Text("Log In", style: TextStyle(fontSize: 18),): Text("Create Account",style: TextStyle(fontSize: 18),),
             ),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                child: Text(
-                  "Don't have an account ? ",
+                child: !signuplogin?Text( "Don't have an account ? ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),):Text("Already have an account ? ",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
@@ -115,8 +158,8 @@ class _LoginState extends State<Login> {
                     style: TextButton.styleFrom(
                         textStyle: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16)),
-                    onPressed: () {},
-                    child: Text("Sign Up")),
+                    onPressed: _signuplogin,
+                    child: !signuplogin? Text("Sign Up"):Text("Login")),
               )
             ],
           )
