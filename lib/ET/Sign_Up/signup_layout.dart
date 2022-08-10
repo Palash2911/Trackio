@@ -6,11 +6,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:expense_tracker/firebase_options.dart';
 import 'package:expense_tracker/ET/Sign_Up/signup_layout.dart';
 
-class Signup extends StatelessWidget {
+class Signup extends StatefulWidget {
   // const Signup({Key? key}) : super(key: key);
   Signup({required this.auth});
   // final Function(User) onSignIn;
   final AuthClass auth;
+
+  @override
+  State<Signup> createState() => _SignupState();
+}
+
+class _SignupState extends State<Signup> {
+
+  final TextEditingController _emailnew = TextEditingController();
+  final TextEditingController _pwdnew = TextEditingController();
+  String get _email => _emailnew.text;
+  String get _pwd => _pwdnew.text;
 
   Future<void> _signInAnonymously() async {
     try {

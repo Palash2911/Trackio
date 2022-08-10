@@ -22,7 +22,7 @@ class dashBoard extends StatelessWidget {
                 child: RaisedButton(
                   textColor: Colors.white,
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Bottomnav()));
+                    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Bottomnav()));
                   },
                   child: const Text(
                     "Add Expense",

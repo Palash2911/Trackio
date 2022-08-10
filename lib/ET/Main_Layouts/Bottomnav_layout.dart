@@ -3,8 +3,12 @@ import 'package:expense_tracker/ET/Main_Layouts/Graphs/graphw_layout.dart';
 import 'package:expense_tracker/ET/Main_Layouts/Setting/setting_layout.dart';
 import 'package:flutter/material.dart';
 
+import '../Services/firebaseAuth.dart';
+
 class Bottomnav extends StatefulWidget {
-  const Bottomnav({Key? key}) : super(key: key);
+  Bottomnav({required this.auth});
+  // const Bottomnav({Key? key}) : super(key: key);
+  final AuthClass auth;
 
   @override
   State<Bottomnav> createState() => _BottomnavState();
@@ -16,12 +20,16 @@ class _BottomnavState extends State<Bottomnav> {
   static final List<Widget> _widgetOptions = <Widget>[
     dashBoard(),
     graphW(),
-    // Setting(auth: , onSignout: () {}),
+    Setting(
+      // auth: auth,
+    ),
   ];
+
 
   void _onItemTapped(int index) {
     setState(() {
       indx = index;
+      var auth = widget.auth;
     });
   }
   @override

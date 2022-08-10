@@ -25,19 +25,12 @@ class _LoginState extends State<Login> {
     }
   }
 
-  bool _validator(String value){
-    print(value);
-    return value.isNotEmpty;
-  }
 
   bool checker = false;
 
   final TextEditingController _emailcontrol = TextEditingController();
-
   final TextEditingController _pwdcontrol = TextEditingController();
-
   String get _email => _emailcontrol.text;
-
   String get _pwd => _pwdcontrol.text;
 
   void _signinEmail(BuildContext context)
@@ -50,7 +43,7 @@ class _LoginState extends State<Login> {
         if(user==null)
           {
             setState(() {
-              checker = !checker;
+              checker = true;
             });
           }
         widget.onLogIn(user!);

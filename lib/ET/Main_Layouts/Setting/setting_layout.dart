@@ -8,17 +8,15 @@ import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
 class Setting extends StatelessWidget {
   // const Setting({Key? key}) : super(key: key);
 
-  Setting({required this.auth, required this.onSignout});
-  final VoidCallback onSignout;
-  final AuthClass auth;
+  // Setting({required this.auth});
+  // final AuthClass auth;
 
   Future<void> _Signout() async {
-    try {
-      await auth.signOut();
-      onSignout();
-    } catch (e) {
-      print(e.toString());
-    }
+    // try {
+    //   await auth.signOut();
+    // } catch (e) {
+    //   print(e.toString());
+    // }
   }
 
   @override
@@ -40,8 +38,8 @@ class Setting extends StatelessWidget {
                   child: RaisedButton(
                     textColor: Colors.white,
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Bottomnav()));
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) => Bottomnav()));
                     },
                     child: const Text(
                       "Your Account",
@@ -64,8 +62,8 @@ class Setting extends StatelessWidget {
                 child: RaisedButton(
                   textColor: Colors.white,
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Bottomnav()));
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (context) => Bottomnav()));
                   },
                   child: const Text(
                     "Export as PDF",
@@ -87,8 +85,8 @@ class Setting extends StatelessWidget {
                 child: RaisedButton(
                   textColor: Colors.white,
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Bottomnav()));
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (context) => Bottomnav()));
                   },
                   child: const Text(
                     "Edit Upcoming Expenses",
@@ -109,7 +107,10 @@ class Setting extends StatelessWidget {
                 height: 45.0,
                 child: RaisedButton(
                   textColor: Colors.white,
-                  onPressed: _Signout,
+                  onPressed: (){
+                    FirebaseAuth.instance.signOut();
+                    print("dvfsdav");
+                  },
                   child: const Text(
                     "Log Out",
                     style: TextStyle(fontSize: 18),

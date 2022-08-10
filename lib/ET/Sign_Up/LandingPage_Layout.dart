@@ -15,7 +15,6 @@ class landingPage extends StatefulWidget {
 class _landingPageState extends State<landingPage> {
    Users? _user;
 
-
   @override
   void initState() {
     _getData();
@@ -48,6 +47,8 @@ class _landingPageState extends State<landingPage> {
       );
     }
     // print("nice bhai");
-    return Bottomnav();
+    return Bottomnav(
+      auth: widget.auth,
+    );
   }
 }
