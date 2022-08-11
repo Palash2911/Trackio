@@ -39,13 +39,11 @@ class _landingPageState extends State<landingPage> {
   @override
   Widget build(BuildContext context) {
     if (_user == null) {
-      // print("user null hai bawa");
       return Login(
         auth: widget.auth,
         onLogIn: _updateUser,
       );
     }
-    // print("nice bhai");
     return Bottomnav(
       auth: widget.auth,
     );

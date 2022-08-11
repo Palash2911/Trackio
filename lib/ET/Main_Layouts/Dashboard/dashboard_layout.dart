@@ -10,7 +10,8 @@ class dashBoard extends StatelessWidget {
       // appBar: AppBar(
       //   title: Text('LOG IN', style: TextStyle(fontWeight: FontWeight.bold)),
       // ),
-      body: Container(
+      body: SafeArea(
+          child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -31,14 +32,9 @@ class dashBoard extends StatelessWidget {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Upcoming Expenses ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
-            ),
           ],
         ),
+      ),
       ),
     );
   }
