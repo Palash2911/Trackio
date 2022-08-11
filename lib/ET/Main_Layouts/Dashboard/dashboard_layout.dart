@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../Services/firebaseAuth.dart';
+
 class dashBoard extends StatefulWidget {
-  const dashBoard({Key? key}) : super(key: key);
+  // const dashBoard({Key? key}) : super(key: key);
+
+  dashBoard({required this.auth});
+  final AuthClass auth;
 
   @override
   State<dashBoard> createState() => _dashBoardState();
@@ -10,12 +15,24 @@ class dashBoard extends StatefulWidget {
 
 class _dashBoardState extends State<dashBoard> {
   TextEditingController _datecontroller = TextEditingController();
+  TextEditingController _amtcontroller = TextEditingController();
+  TextEditingController _categorycontroller = TextEditingController();
   String get date => _datecontroller.text;
+  String get amt => _amtcontroller.text;
+  String get category => _categorycontroller.text;
 
   @override
   void initState() {
-    _datecontroller.text = ""; //set the initial value of text field
+    _datecontroller.text = "";
+    _amtcontroller.text = "";
+    _categorycontroller.text = "";
+    //set the initial value of text field
     super.initState();
+  }
+
+  void _addnewExpense() async
+  {
+      widget.auth.newexpense(amt, date, category);
   }
 
   @override
@@ -40,7 +57,8 @@ class _dashBoardState extends State<dashBoard> {
                         builder: (context) => AlertDialog(
                               title: const Center(child: Text("Enter Details")),
                               actions: [
-                                const TextField(
+                                TextField(
+                                  controller: _amtcontroller,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: "Enter Expense",
@@ -104,13 +122,14 @@ class _dashBoardState extends State<dashBoard> {
                                             // side: BorderSide(color: Colors.red)
                                           ))),
                                       onPressed: () {
+                                        _addnewExpense();
                                         Navigator.pop(context);
                                       },
                                       child: const Text(
                                         "Add",
                                         style: TextStyle(fontSize: 15),
                                       )),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 30,
                                       ),
                                       TextButton(

@@ -10,10 +10,12 @@ abstract class AuthClass{
   Future<Users?> signIn();
   Future<Users?> createUserEmailAndPwd(String email, String pwd, String Name, String Budget);
   Future<Users?> signInEmail(String email, String pwd);
+  Future<void> newexpense(String amt, String date, String category);
   Future<void> signOut();
 }
 
 class Auth implements AuthClass{
+
   Users? _userFromFirebase(User user)
   {
     if(user==null)
@@ -22,14 +24,17 @@ class Auth implements AuthClass{
       }
     return Users(uid: user.uid);
   }
+
   Future<Users?> currentUser() async{
     final user = await FirebaseAuth.instance.currentUser;
     return  _userFromFirebase(user!);
   }
+
   Future<Users?> signIn() async{
     final auth = await FirebaseAuth.instance.signInAnonymously();
     return _userFromFirebase(auth.user!);
   }
+
   Future<Users?> signInEmail(String emails, String pwd) async{
     try{
       final auth = await FirebaseAuth.instance.signInWithEmailAndPassword(email: emails, password: pwd);
@@ -39,20 +44,33 @@ class Auth implements AuthClass{
     {
       print(e);
     }
-
   }
+
   Future<Users?> createUserEmailAndPwd(String email, String pwd, String Name, String Budget) async{
     try{
       final auth = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: pwd);
       CollectionReference users = FirebaseFirestore.instance.collection('Users');
-      users.add({'Name': Name, 'Email': email, 'Monthly Budget': Budget, 'Monthly Spent': '0', 'UserID': auth.user?.uid.toString()});
+      print(auth.user?.uid.toString());
+      users.doc(auth.user?.uid).set({'Name': Name, 'Email': email, 'Monthly Budget': Budget, 'Monthly Spent': '0', 'UserID': auth.user?.uid.toString()});
       return _userFromFirebase(auth.user!);
     }catch(e)
     {
       print(e);
     }
   }
+
   Future<void> signOut() async{
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future<void> newexpense(String amt, String date, String category) async{
+    try{
+      final auth = await FirebaseAuth.instance.currentUser;
+      CollectionReference users = FirebaseFirestore.instance.collection('Users');
+      users.doc(auth?.uid).collection('History').add({"Monthly Spent" : amt, "Date": date, "Category": category});
+    }catch(e)
+    {
+      print(e.toString());
+    }
   }
 }
