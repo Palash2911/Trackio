@@ -147,8 +147,8 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                child: !signuplogin?Text( "Don't have an account ? ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),):Text("Already have an account ? ",
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                child: !signuplogin? const Text( "Don't have an account ? ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),):Text("Already have an account ? ",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),

@@ -1,8 +1,22 @@
-import 'package:expense_tracker/ET/Main_Layouts/Bottomnav_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class dashBoard extends StatelessWidget {
+class dashBoard extends StatefulWidget {
   const dashBoard({Key? key}) : super(key: key);
+
+  @override
+  State<dashBoard> createState() => _dashBoardState();
+}
+
+class _dashBoardState extends State<dashBoard> {
+  TextEditingController _datecontroller = TextEditingController();
+  String get date => _datecontroller.text;
+
+  @override
+  void initState() {
+    _datecontroller.text = ""; //set the initial value of text field
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,32 +25,141 @@ class dashBoard extends StatelessWidget {
       //   title: Text('LOG IN', style: TextStyle(fontWeight: FontWeight.bold)),
       // ),
       body: SafeArea(
-          child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Center(
-              child: ButtonTheme(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                minWidth: 380.0,
-                child: RaisedButton(
-                  textColor: Colors.white,
+              child: SizedBox(
+                // height: 100,
+                width: 300,
+                child: TextButton(
                   onPressed: () {
-                    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Bottomnav()));
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: const Center(child: Text("Enter Details")),
+                              actions: [
+                                const TextField(
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: "Enter Expense",
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                ),
+                                const SizedBox(
+                                  width: 100,
+                                  height: 30,
+                                ),
+                                TextField(
+                                    controller: _datecontroller,
+                                    // onTap: ,
+                                    decoration: const InputDecoration(
+                                      icon: Icon(Icons.calendar_today),
+                                      border: OutlineInputBorder(),
+                                      labelText: "Choose Date",
+                                    ),
+                                    readOnly: true,
+                                    onTap: () async {
+                                      DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(2022),
+                                              lastDate: DateTime(2050));
+                                      if (pickedDate != null) {
+                                        //pickedDate output format => 2021-03-10 00:00:00.000
+                                        String formattedDate =
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(pickedDate);
+                                        setState(() {
+                                          _datecontroller.text =
+                                              formattedDate; //set output date to TextField value.
+                                        });
+                                      } else {}
+                                    }),
+                                const SizedBox(
+                                  width: 100,
+                                  height: 30,
+                                ),
+                                Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                  TextButton(
+                                      style: ButtonStyle(
+                                          foregroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.white),
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.blue),
+                                          padding: MaterialStateProperty.all<
+                                              EdgeInsets>(EdgeInsets.all(15)),
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(14.0),
+                                            // side: BorderSide(color: Colors.red)
+                                          ))),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text(
+                                        "Add",
+                                        style: TextStyle(fontSize: 15),
+                                      )),
+                                      SizedBox(
+                                        width: 30,
+                                      ),
+                                      TextButton(
+                                          style: ButtonStyle(
+                                              foregroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.blue),
+                                              padding: MaterialStateProperty.all<
+                                                  EdgeInsets>(EdgeInsets.all(15)),
+                                              shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(14.0),
+                                                    side: BorderSide(color: Colors.blue)
+                                                  ))),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "Cancel",
+                                            style: TextStyle(fontSize: 15),
+                                          ))
+                                ])
+                              ],
+                            ));
                   },
+                  style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.blue),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                          EdgeInsets.all(15)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14.0),
+                        // side: BorderSide(color: Colors.red)
+                      ))),
                   child: const Text(
                     "Add Expense",
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
               ),
-            ),
+            )
           ],
         ),
-      ),
       ),
     );
   }
 }
-
