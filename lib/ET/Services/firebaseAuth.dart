@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -51,7 +53,7 @@ class Auth implements AuthClass{
       final auth = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: pwd);
       CollectionReference users = FirebaseFirestore.instance.collection('Users');
       print(auth.user?.uid.toString());
-      users.doc(auth.user?.uid).set({'Name': Name, 'Email': email, 'Monthly Budget': Budget, 'Monthly Spent': '0', 'UserID': auth.user?.uid.toString()});
+      users.doc(auth.user?.uid).set({'Name': Name, 'Email': email, 'Monthly Budget': Budget, 'Monthly Spent':  0, 'UserID': auth.user?.uid.toString()});
       return _userFromFirebase(auth.user!);
     }catch(e)
     {
@@ -65,9 +67,23 @@ class Auth implements AuthClass{
 
   Future<void> newexpense(String amt, String date, String category) async{
     try{
+      int spent=int.parse(amt);
+      int sp;
       final auth = await FirebaseAuth.instance.currentUser;
       CollectionReference users = FirebaseFirestore.instance.collection('Users');
-      users.doc(auth?.uid).collection('History').add({"Monthly Spent" : amt, "Date": date, "Category": category});
+      users.get().then((QuerySnapshot querys) {
+        for (var doc in querys.docs) {
+          // print(doc["Monthly Spent"]);
+          if(doc.id.toString() == auth?.uid.toString())
+            {
+              sp = int.parse(doc["Monthly Spent"].toString());
+              sp+=spent;
+              users.doc(auth?.uid).update({"Monthly Spent": (sp)});
+              break;
+            }
+           }
+      });
+      users.doc(auth?.uid).collection('History').add({"Spent" : amt, "Date": date, "Category": category});
     }catch(e)
     {
       print(e.toString());
