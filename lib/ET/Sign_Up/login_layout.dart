@@ -58,6 +58,8 @@ class _LoginState extends State<Login> {
           await widget.auth.createUserEmailAndPwd(_email, _pwd, _name, _budget);
       if (user == null) {
         setState(() {
+          validatepwd = false;
+          validateEmail = false;
           checker = true;
         });
       }
