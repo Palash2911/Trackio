@@ -24,7 +24,8 @@ class _LoginState extends State<Login> {
 
   bool checker = false;
   bool signuplogin = false;
-  bool validate = false;
+  bool validateEmail = true;
+  bool validatepwd = true;
 
   final TextEditingController _emailcontrol = TextEditingController();
   final TextEditingController _pwdcontrol = TextEditingController();
@@ -46,6 +47,8 @@ class _LoginState extends State<Login> {
       Users? user = await widget.auth.signInEmail(_email, _pwd);
       if (user == null) {
         setState(() {
+          validatepwd = false;
+          validateEmail = false;
           checker = true;
         });
       }
@@ -95,10 +98,11 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
               child: TextField(
                 controller: _emailcontrol,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Enter Email",
                   hintText: "John@gmail.com",
+                  errorText: validateEmail? null: "Oops!! Invalid Email",
                   // errorText: _validator(_emailcontrol.text.toString()) ? null : "Email can't be empty",
                 ),
                 keyboardType: TextInputType.emailAddress,
@@ -112,9 +116,10 @@ class _LoginState extends State<Login> {
                 obscureText: true,
                 enableSuggestions: false,
                 autocorrect: false,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Enter Password",
+                  errorText: validatepwd? null: "Oops!! Invalid Password",
                   // errorText: _validator(_pwd) ? null : "Password can't be empty"
                 ),
                 textInputAction: TextInputAction.done,
