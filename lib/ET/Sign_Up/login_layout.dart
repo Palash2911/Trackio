@@ -86,7 +86,7 @@ class _LoginState extends State<Login> {
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                     child: TextField(
                       controller: _namecontrol,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Enter Name",
                         hintText: "John Smith",
@@ -101,7 +101,7 @@ class _LoginState extends State<Login> {
               child: TextField(
                 controller: _emailcontrol,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   labelText: "Enter Email",
                   hintText: "John@gmail.com",
                   errorText: validateEmail? null: "Oops!! Invalid Email",
@@ -112,14 +112,14 @@ class _LoginState extends State<Login> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
               child: TextField(
                 controller: _pwdcontrol,
                 obscureText: true,
                 enableSuggestions: false,
                 autocorrect: false,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   labelText: "Enter Password",
                   errorText: validatepwd? null: "Oops!! Invalid Password",
                   // errorText: _validator(_pwd) ? null : "Password can't be empty"
@@ -129,11 +129,11 @@ class _LoginState extends State<Login> {
             ),
             signuplogin
                 ? Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                     child: TextField(
                       controller: _budgetcontrol,
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Enter Monthly Budget (in Rs. )",
                         hintText: "1000",
@@ -150,11 +150,11 @@ class _LoginState extends State<Login> {
                 textColor: Colors.white,
                 onPressed: () => _loginbtn(),
                 child: !signuplogin
-                    ? Text(
+                    ? const Text(
                         "Log In",
                         style: TextStyle(fontSize: 18),
                       )
-                    : Text(
+                    : const Text(
                         "Create Account",
                         style: TextStyle(fontSize: 18),
                       ),
@@ -173,14 +173,14 @@ class _LoginState extends State<Login> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         )
-                      : Text(
+                      : const Text(
                           "Already have an account ? ",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                   child: TextButton(
                       style: TextButton.styleFrom(
                           textStyle: const TextStyle(
