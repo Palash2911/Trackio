@@ -22,6 +22,7 @@ class _dashBoardState extends State<dashBoard> {
   String get date => _datecontroller.text;
   String get amt => _amtcontroller.text;
   String get category => _categorycontroller.text;
+  String totalAmt = "";
 
   @override
   void initState() {
@@ -32,9 +33,9 @@ class _dashBoardState extends State<dashBoard> {
     super.initState();
   }
 
-  void _addnewExpense() async
-  {
-      widget.auth.newexpense(amt, date, category);
+  void _addnewExpense() async {
+    widget.auth.newexpense(amt, date, category);
+    totalAmt = widget.auth.getexpense().toString();
   }
 
   @override
@@ -48,6 +49,11 @@ class _dashBoardState extends State<dashBoard> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Center(
+                child: SizedBox(
+              height: 50,
+              child: totalAmt.isEmpty ? Text("Montly Spent = 0") : Text(amt),
+            )),
             Center(
               child: SizedBox(
                 // height: 100,
@@ -103,51 +109,53 @@ class _dashBoardState extends State<dashBoard> {
                                   height: 30,
                                 ),
                                 Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                  TextButton(
-                                      style: ButtonStyle(
-                                          foregroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.white),
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.blue),
-                                          padding: MaterialStateProperty.all<
-                                              EdgeInsets>(EdgeInsets.all(15)),
-                                          shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(14.0),
-                                            // side: BorderSide(color: Colors.red)
-                                          ))),
-                                      onPressed: () {
-                                        _addnewExpense();
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text(
-                                        "Add",
-                                        style: TextStyle(fontSize: 15),
-                                      )),
+                                      TextButton(
+                                          style: ButtonStyle(
+                                              foregroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(Colors.white),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(Colors.blue),
+                                              padding: MaterialStateProperty
+                                                  .all<EdgeInsets>(
+                                                      EdgeInsets.all(15)),
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(14.0),
+                                                // side: BorderSide(color: Colors.red)
+                                              ))),
+                                          onPressed: () {
+                                            _addnewExpense();
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "Add",
+                                            style: TextStyle(fontSize: 15),
+                                          )),
                                       const SizedBox(
                                         width: 30,
                                       ),
                                       TextButton(
                                           style: ButtonStyle(
                                               foregroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.blue),
-                                              padding: MaterialStateProperty.all<
-                                                  EdgeInsets>(EdgeInsets.all(15)),
+                                                  MaterialStateProperty.all<Color>(
+                                                      Colors.blue),
+                                              padding: MaterialStateProperty
+                                                  .all<EdgeInsets>(
+                                                      EdgeInsets.all(15)),
                                               shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
+                                                      RoundedRectangleBorder>(
                                                   RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(14.0),
-                                                    side: BorderSide(color: Colors.blue)
-                                                  ))),
+                                                      borderRadius:
+                                                          BorderRadius.circular(14.0),
+                                                      side: BorderSide(color: Colors.blue)))),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
@@ -155,7 +163,7 @@ class _dashBoardState extends State<dashBoard> {
                                             "Cancel",
                                             style: TextStyle(fontSize: 15),
                                           ))
-                                ])
+                                    ])
                               ],
                             ));
                   },

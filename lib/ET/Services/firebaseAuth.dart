@@ -12,7 +12,8 @@ abstract class AuthClass{
   Future<Users?> signIn();
   Future<Users?> createUserEmailAndPwd(String email, String pwd, String Name, String Budget);
   Future<Users?> signInEmail(String email, String pwd);
-  Future<void> newexpense(String amt, String date, String category);
+  Future<int> newexpense(String amt, String date, String category);
+  Future<int> getexpense();
   Future<void> signOut();
 }
 
@@ -65,10 +66,10 @@ class Auth implements AuthClass{
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<void> newexpense(String amt, String date, String category) async{
+  Future<int> newexpense(String amt, String date, String category) async{
     try{
       int spent=int.parse(amt);
-      int sp;
+      int sp, totAmt = 0;
       final auth = await FirebaseAuth.instance.currentUser;
       CollectionReference users = FirebaseFirestore.instance.collection('Users');
       users.get().then((QuerySnapshot querys) {
@@ -77,6 +78,7 @@ class Auth implements AuthClass{
           if(doc.id.toString() == auth?.uid.toString())
             {
               sp = int.parse(doc["Monthly Spent"].toString());
+              totAmt = int.parse(doc["Monthly Budget"]);
               sp+=spent;
               users.doc(auth?.uid).update({"Monthly Spent": (sp)});
               break;
@@ -84,9 +86,28 @@ class Auth implements AuthClass{
            }
       });
       users.doc(auth?.uid).collection('History').add({"Spent" : amt, "Date": date, "Category": category});
+      return totAmt;
     }catch(e)
     {
       print(e.toString());
     }
+    return 0;
+  }
+  
+  Future<int> getexpense() async{
+    final auth = await FirebaseAuth.instance.currentUser;
+    CollectionReference users = FirebaseFirestore.instance.collection('Users');
+    int totAmt = 0;
+    users.get().then((QuerySnapshot query) {
+      for (var doc in query.docs) {
+        // print(doc["Monthly Spent"]);
+        if(doc.id.toString() == auth?.uid.toString())
+        {
+          totAmt = int.parse(doc["Monthly Budget"]);
+          break;
+        }
+      }
+    });
+    return totAmt;
   }
 }

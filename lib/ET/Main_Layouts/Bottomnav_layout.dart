@@ -101,8 +101,8 @@ class _BottomnavState extends State<Bottomnav> {
         backgroundColor: Colors.transparent,
         items: navicons,
         buttonBackgroundColor: const Color.fromRGBO(5, 102, 141, 1),
-        animationCurve: Curves.linearToEaseOut,
-        animationDuration: const Duration(milliseconds: 810),
+        animationCurve: Curves.easeInOut,
+        animationDuration: const Duration(milliseconds: 300),
         onTap: _onItemTapped,
       ),
     );
