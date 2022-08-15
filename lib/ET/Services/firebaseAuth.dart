@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 class Users{
   Users({required this.uid});
@@ -12,8 +13,8 @@ abstract class AuthClass{
   Future<Users?> signIn();
   Future<Users?> createUserEmailAndPwd(String email, String pwd, String Name, String Budget);
   Future<Users?> signInEmail(String email, String pwd);
-  Future<int> newexpense(String amt, String date, String category);
-  Future<int> getexpense();
+  Future<void> newexpense(String amt, String date, String category);
+  Future<String> getexpense();
   Future<void> signOut();
 }
 
@@ -66,48 +67,43 @@ class Auth implements AuthClass{
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<int> newexpense(String amt, String date, String category) async{
+  Future<void> newexpense(String amt, String date, String category) async{
     try{
       int spent=int.parse(amt);
-      int sp, totAmt = 0;
+      int sp;
       final auth = await FirebaseAuth.instance.currentUser;
       CollectionReference users = FirebaseFirestore.instance.collection('Users');
-      users.get().then((QuerySnapshot querys) {
+      await users.get().then((QuerySnapshot querys) {
         for (var doc in querys.docs) {
           // print(doc["Monthly Spent"]);
           if(doc.id.toString() == auth?.uid.toString())
             {
               sp = int.parse(doc["Monthly Spent"].toString());
-              totAmt = int.parse(doc["Monthly Budget"]);
               sp+=spent;
-              users.doc(auth?.uid).update({"Monthly Spent": (sp)});
+              users.doc(auth?.uid).update({"Monthly Spent": (sp.toString())});
               break;
             }
            }
       });
       users.doc(auth?.uid).collection('History').add({"Spent" : amt, "Date": date, "Category": category});
-      return totAmt;
     }catch(e)
     {
       print(e.toString());
     }
-    return 0;
   }
   
-  Future<int> getexpense() async{
-    final auth = await FirebaseAuth.instance.currentUser;
+  Future<String> getexpense() async{
+    final auth = FirebaseAuth.instance.currentUser;
     CollectionReference users = FirebaseFirestore.instance.collection('Users');
     int totAmt = 0;
-    users.get().then((QuerySnapshot query) {
-      for (var doc in query.docs) {
-        // print(doc["Monthly Spent"]);
-        if(doc.id.toString() == auth?.uid.toString())
-        {
-          totAmt = int.parse(doc["Monthly Budget"]);
-          break;
-        }
-      }
+    String amt = "";
+    await users.doc(auth?.uid).get().then((DocumentSnapshot query) {
+      Map<String, dynamic> data = query.data() as Map<String, dynamic>;
+      totAmt = int.parse(data["Monthly Spent"].toString());
+      int amt2 = int.parse(data["Monthly Budget"].toString());
+      amt = "$totAmt $amt2";
+      print("Amount it is $totAmt");
     });
-    return totAmt;
+    return amt;
   }
 }

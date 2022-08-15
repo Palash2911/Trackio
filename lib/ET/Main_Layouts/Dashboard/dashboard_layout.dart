@@ -22,7 +22,8 @@ class _dashBoardState extends State<dashBoard> {
   String get date => _datecontroller.text;
   String get amt => _amtcontroller.text;
   String get category => _categorycontroller.text;
-  String totalAmt = "";
+  int budget = 0;
+  int moneySpent = 0;
 
   @override
   void initState() {
@@ -33,13 +34,22 @@ class _dashBoardState extends State<dashBoard> {
     super.initState();
   }
 
+  void _getexp() async{
+    String temp = await widget.auth.getexpense();
+    setState(() {
+      budget = int.parse(temp.split(" ").last);
+      moneySpent = budget - int.parse(temp.split(" ").first);
+      print(budget);
+    });
+  }
   void _addnewExpense() async {
-    widget.auth.newexpense(amt, date, category);
-    totalAmt = widget.auth.getexpense().toString();
+    widget.auth.newexpense(amt, date, category).toString();
+    // totalAmt = int.parse(widget.auth.getexpense().toString().toString());
   }
 
   @override
   Widget build(BuildContext context) {
+    _getexp();
     return Scaffold(
       // appBar: AppBar(
       //   title: Text('LOG IN', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -52,8 +62,13 @@ class _dashBoardState extends State<dashBoard> {
             Center(
                 child: SizedBox(
               height: 50,
-              child: totalAmt.isEmpty ? Text("Montly Spent = 0") : Text(amt),
+              child: Text("Monthly Budget : ${budget.toString()}"),
             )),
+            Center(
+                child: SizedBox(
+                  height: 50,
+                  child: moneySpent>0 ? Text("Money Left : ${moneySpent.toString()}"): Text("Money Extra Spent : ${0-moneySpent}"),
+                )),
             Center(
               child: SizedBox(
                 // height: 100,
