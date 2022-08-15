@@ -34,7 +34,7 @@ class _dashBoardState extends State<dashBoard> {
     super.initState();
   }
 
-  void _getexp() async{
+  void _getexp() async {
     String temp = await widget.auth.getexpense();
     setState(() {
       budget = int.parse(temp.split(" ").last);
@@ -42,6 +42,7 @@ class _dashBoardState extends State<dashBoard> {
       print(budget);
     });
   }
+
   void _addnewExpense() async {
     widget.auth.newexpense(amt, date, category).toString();
     // totalAmt = int.parse(widget.auth.getexpense().toString().toString());
@@ -59,16 +60,24 @@ class _dashBoardState extends State<dashBoard> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Center(
-                child: SizedBox(
+            SizedBox(
+              height: 70,
+              width: 300,
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Monthly Budget : ${budget.toString()}")),
+            ),
+            SizedBox(
               height: 50,
-              child: Text("Monthly Budget : ${budget.toString()}"),
-            )),
-            Center(
-                child: SizedBox(
-                  height: 50,
-                  child: moneySpent>0 ? Text("Money Left : ${moneySpent.toString()}"): Text("Money Extra Spent : ${0-moneySpent}"),
-                )),
+              width: 300,
+              child: moneySpent >= 0
+                  ? Text(
+                      "Money Left : ${moneySpent.toString()}",
+                      style: TextStyle(color: Colors.green),
+                    )
+                  : Text("Money Extra Spent : ${0 - moneySpent}",
+                      style: TextStyle(color: Colors.red)),
+            ),
             Center(
               child: SizedBox(
                 // height: 100,
@@ -82,7 +91,7 @@ class _dashBoardState extends State<dashBoard> {
                               actions: [
                                 TextField(
                                   controller: _amtcontroller,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: "Enter Expense",
                                   ),
