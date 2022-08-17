@@ -7,7 +7,6 @@ import '../../Services/firebaseAuth.dart';
 
 class dashBoard extends StatefulWidget {
   // const dashBoard({Key? key}) : super(key: key);
-
   dashBoard({required this.auth});
   final AuthClass auth;
 
@@ -18,18 +17,29 @@ class dashBoard extends StatefulWidget {
 class _dashBoardState extends State<dashBoard> {
   TextEditingController _datecontroller = TextEditingController();
   TextEditingController _amtcontroller = TextEditingController();
-  TextEditingController _categorycontroller = TextEditingController();
+  TextEditingController _notecontroller = TextEditingController();
   String get date => _datecontroller.text;
   String get amt => _amtcontroller.text;
-  String get category => _categorycontroller.text;
+  String get category => _notecontroller.text;
   int budget = 0;
   int moneySpent = 0;
+  bool dateCheck = true;
+  bool amtCheck = true;
+  bool noteCheck = true;
+  bool btnPress = true;
+
+  bool validator(String check) {
+    if (check.isEmpty) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   void initState() {
     _datecontroller.text = "";
     _amtcontroller.text = "";
-    _categorycontroller.text = "";
+    _notecontroller.text = "";
     //set the initial value of text field
     super.initState();
   }
@@ -39,7 +49,6 @@ class _dashBoardState extends State<dashBoard> {
     setState(() {
       budget = int.parse(temp.split(" ").last);
       moneySpent = budget - int.parse(temp.split(" ").first);
-      print(budget);
     });
   }
 
@@ -84,16 +93,28 @@ class _dashBoardState extends State<dashBoard> {
                 width: 300,
                 child: TextButton(
                   onPressed: () {
+                    setState(() {
+                      _datecontroller.text = "";
+                      _amtcontroller.text = "";
+                      _notecontroller.text = "";
+                    });
                     showDialog(
                         context: context,
-                        builder: (context) => AlertDialog(
+                        builder: (context) => SingleChildScrollView(
+                            child: Container(
+                              margin:  EdgeInsets.only(top: 110.0),
+                                child: AlertDialog(
                               title: const Center(child: Text("Enter Details")),
                               actions: [
                                 TextField(
                                   controller: _amtcontroller,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
+                                    icon: Icon(Icons.currency_rupee),
                                     border: OutlineInputBorder(),
-                                    labelText: "Enter Expense",
+                                    labelText: "$btnPress",
+                                    errorText: validator(_amtcontroller.text)
+                                        ? null
+                                        : "Amount Required",
                                   ),
                                   keyboardType: TextInputType.number,
                                 ),
@@ -132,6 +153,18 @@ class _dashBoardState extends State<dashBoard> {
                                   width: 100,
                                   height: 30,
                                 ),
+                                TextField(
+                                  controller: _notecontroller,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.note_alt),
+                                    border: OutlineInputBorder(),
+                                    labelText: "Add a Note",
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 100,
+                                  height: 30,
+                                ),
                                 Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
@@ -156,6 +189,9 @@ class _dashBoardState extends State<dashBoard> {
                                                 // side: BorderSide(color: Colors.red)
                                               ))),
                                           onPressed: () {
+                                            setState(() {
+                                              btnPress = false;
+                                            });
                                             _addnewExpense();
                                             Navigator.pop(context);
                                           },
@@ -189,7 +225,7 @@ class _dashBoardState extends State<dashBoard> {
                                           ))
                                     ])
                               ],
-                            ));
+                            ))));
                   },
                   style: ButtonStyle(
                       foregroundColor:

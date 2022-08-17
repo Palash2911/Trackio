@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../Models/newExpense.dart';
+
 class Users{
   Users({required this.uid});
   final String uid;
@@ -16,6 +18,8 @@ abstract class AuthClass{
   Future<void> newexpense(String amt, String date, String category);
   Future<String> getexpense();
   Future<void> signOut();
+  List<newExpense> expenseFromFirestore(QuerySnapshot snapshot);
+  Stream<List<newExpense>> listExpense();
 }
 
 class Auth implements AuthClass{
@@ -102,8 +106,19 @@ class Auth implements AuthClass{
       totAmt = int.parse(data["Monthly Spent"].toString());
       int amt2 = int.parse(data["Monthly Budget"].toString());
       amt = "$totAmt $amt2";
-      print("Amount it is $totAmt");
     });
     return amt;
+  }
+
+  List<newExpense> expenseFromFirestore(QuerySnapshot snapshot) {
+    return snapshot.docs.map((e) {
+      return newExpense(amount: e["Spent"], date: e["Date"], category: e["Category"]);
+    }).toList();
+  }
+
+  Stream<List<newExpense>> listExpense() {
+    final auth = FirebaseAuth.instance.currentUser;
+    CollectionReference users = FirebaseFirestore.instance.collection('Users');
+    return users.doc(auth?.uid).collection("History").snapshots().map(expenseFromFirestore);
   }
 }

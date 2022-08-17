@@ -41,7 +41,7 @@ class _BottomnavState extends State<Bottomnav> {
   var tit = ["Home", "Graph", "Setting"];
   List<Widget> _children() => [
         dashBoard( auth: widget.auth,),
-        graphW(),
+        graphW(auth: widget.auth,),
         Setting(
           auth: widget.auth,
         ),
