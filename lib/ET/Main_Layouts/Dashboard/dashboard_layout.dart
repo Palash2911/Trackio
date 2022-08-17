@@ -141,8 +141,9 @@ class _dashBoardState extends State<dashBoard> {
                                       if (pickedDate != null) {
                                         //pickedDate output format => 2021-03-10 00:00:00.000
                                         String formattedDate =
-                                            DateFormat('yyyy-MM-dd')
+                                        DateFormat.yMMMMd('en_US')
                                                 .format(pickedDate);
+                                        print(formattedDate);
                                         setState(() {
                                           _datecontroller.text =
                                               formattedDate; //set output date to TextField value.
