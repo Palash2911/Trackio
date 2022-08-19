@@ -72,20 +72,54 @@ class _dashBoardState extends State<dashBoard> {
             SizedBox(
               height: 70,
               width: 300,
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Monthly Budget : ${budget.toString()}")),
+              child: Row(
+                children: [
+                  SizedBox(
+                    height: 70,
+                    width: 150,
+                    child: Card(
+                      child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 15,
+                        ),
+                       const Align(
+                          alignment: Alignment.center,
+                          child: Text("Monthly Budget"),),
+                        Text(
+                          budget.toString(),
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ]
+                    ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                    width: 150,
+                    child: Card(
+                      child: Column(
+                        children: <Widget>[
+                          moneySpent >= 0
+                              ? Text(
+                            "Money Left : ${moneySpent.toString()}",
+                            style: TextStyle(color: Colors.green),
+                          )
+                              : Text("Money Extra Spent : ${0 - moneySpent}",
+                              style: TextStyle(color: Colors.red)),
+                        ],
+                      )
+                    )
+                  ),
+                ],
+              ),
             ),
             SizedBox(
-              height: 50,
-              width: 300,
-              child: moneySpent >= 0
-                  ? Text(
-                      "Money Left : ${moneySpent.toString()}",
-                      style: TextStyle(color: Colors.green),
-                    )
-                  : Text("Money Extra Spent : ${0 - moneySpent}",
-                      style: TextStyle(color: Colors.red)),
+              height: 30,
             ),
             Center(
               child: SizedBox(
