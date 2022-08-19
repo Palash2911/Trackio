@@ -24,7 +24,7 @@ class _graphWState extends State<graphW> {
       const Align(
         alignment: Alignment.centerLeft,
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(18),
           child: Text(
             "History",
             style: TextStyle(
