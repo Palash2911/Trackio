@@ -15,6 +15,7 @@ class dashBoard extends StatefulWidget {
 }
 
 class _dashBoardState extends State<dashBoard> {
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
   TextEditingController _datecontroller = TextEditingController();
   TextEditingController _amtcontroller = TextEditingController();
   TextEditingController _notecontroller = TextEditingController();
@@ -156,29 +157,34 @@ class _dashBoardState extends State<dashBoard> {
                         context: context,
                         builder: (context) => SingleChildScrollView(
                             child: Container(
-                                margin: EdgeInsets.only(top: 110.0),
-                                child: AlertDialog(
+                                margin: const EdgeInsets.only(top: 110.0),
+                                child:Form(
+                                  key: _key,
+                                    child: AlertDialog(
                                   title: const Center(
                                       child: Text("Enter Details")),
                                   actions: [
-                                    TextField(
+                                    TextFormField(
                                       controller: _amtcontroller,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         icon: Icon(Icons.currency_rupee),
                                         border: OutlineInputBorder(),
-                                        labelText: "$btnPress",
-                                        errorText:
-                                            validator(_amtcontroller.text)
-                                                ? null
-                                                : "Amount Required",
+                                        labelText: "Amount",
                                       ),
+                                      validator: (value){
+                                        if(value == null || value.isEmpty)
+                                          {
+                                            return 'Amount Required !';
+                                          }
+                                        return null;
+                                      },
                                       keyboardType: TextInputType.number,
                                     ),
                                     const SizedBox(
                                       width: 100,
                                       height: 30,
                                     ),
-                                    TextField(
+                                    TextFormField(
                                         controller: _datecontroller,
                                         // onTap: ,
                                         decoration: const InputDecoration(
@@ -186,6 +192,13 @@ class _dashBoardState extends State<dashBoard> {
                                           border: OutlineInputBorder(),
                                           labelText: "Choose Date",
                                         ),
+                                        validator: (value){
+                                          if(value == null || value.isEmpty)
+                                          {
+                                            return 'Date Not Set !';
+                                          }
+                                          return null;
+                                        },
                                         readOnly: true,
                                         onTap: () async {
                                           DateTime? pickedDate =
@@ -210,13 +223,20 @@ class _dashBoardState extends State<dashBoard> {
                                       width: 100,
                                       height: 30,
                                     ),
-                                    TextField(
+                                    TextFormField(
                                       controller: _notecontroller,
                                       decoration: const InputDecoration(
                                         icon: Icon(Icons.note_alt),
                                         border: OutlineInputBorder(),
                                         labelText: "Add a Note",
                                       ),
+                                      validator: (value){
+                                        if(value == null || value.isEmpty)
+                                        {
+                                          return 'Add a Note !';
+                                        }
+                                        return null;
+                                      },
                                     ),
                                     const SizedBox(
                                       width: 100,
@@ -248,11 +268,11 @@ class _dashBoardState extends State<dashBoard> {
                                                     // side: BorderSide(color: Colors.red)
                                                   ))),
                                               onPressed: () {
-                                                setState(() {
-                                                  btnPress = false;
-                                                });
-                                                _addnewExpense();
-                                                Navigator.pop(context);
+                                                if(_key.currentState!.validate())
+                                                  {
+                                                    _addnewExpense();
+                                                    Navigator.pop(context);
+                                                  }
                                               },
                                               child: const Text(
                                                 "Add",
@@ -284,7 +304,7 @@ class _dashBoardState extends State<dashBoard> {
                                               ))
                                         ])
                                   ],
-                                ))));
+                                )))));
                   },
                   style: ButtonStyle(
                       foregroundColor:
