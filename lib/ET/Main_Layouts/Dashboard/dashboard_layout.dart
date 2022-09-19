@@ -78,14 +78,17 @@ class _dashBoardState extends State<dashBoard> {
                     height: 70,
                     width: 150,
                     child: Card(
-                      child: Column(
-                      children: [
+                      child: Column(children: [
                         const SizedBox(
-                          height: 15,
+                          height: 10,
                         ),
-                       const Align(
+                        const Align(
                           alignment: Alignment.center,
-                          child: Text("Monthly Budget"),),
+                          child: Text("Monthly Budget"),
+                        ),
+                        const SizedBox(
+                          height: 7,
+                        ),
                         Text(
                           budget.toString(),
                           style: const TextStyle(
@@ -94,31 +97,48 @@ class _dashBoardState extends State<dashBoard> {
                             color: Colors.black54,
                           ),
                         ),
-                      ]
-                    ),
+                      ]),
                     ),
                   ),
                   SizedBox(
-                    height: 50,
-                    width: 150,
-                    child: Card(
-                      child: Column(
+                      height: 70,
+                      width: 150,
+                      child: Card(
+                          child: Column(
                         children: <Widget>[
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          moneySpent >= 0
+                              ? const Align(
+                                  child: Text(
+                                    "Money Left",
+                                    style: TextStyle(color: Colors.green),
+                                  ))
+                              : const Text("Money Extra Spent",
+                                  style: TextStyle(color: Colors.red)),
+                          const SizedBox(
+                            height: 7,
+                          ),
                           moneySpent >= 0
                               ? Text(
-                            "Money Left : ${moneySpent.toString()}",
-                            style: TextStyle(color: Colors.green),
-                          )
-                              : Text("Money Extra Spent : ${0 - moneySpent}",
-                              style: TextStyle(color: Colors.red)),
+                                  moneySpent.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green),
+                                )
+                              : Text("${0 - moneySpent}",
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green))
                         ],
-                      )
-                    )
-                  ),
+                      ))),
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Center(
@@ -136,131 +156,135 @@ class _dashBoardState extends State<dashBoard> {
                         context: context,
                         builder: (context) => SingleChildScrollView(
                             child: Container(
-                              margin:  EdgeInsets.only(top: 110.0),
+                                margin: EdgeInsets.only(top: 110.0),
                                 child: AlertDialog(
-                              title: const Center(child: Text("Enter Details")),
-                              actions: [
-                                TextField(
-                                  controller: _amtcontroller,
-                                  decoration: InputDecoration(
-                                    icon: Icon(Icons.currency_rupee),
-                                    border: OutlineInputBorder(),
-                                    labelText: "$btnPress",
-                                    errorText: validator(_amtcontroller.text)
-                                        ? null
-                                        : "Amount Required",
-                                  ),
-                                  keyboardType: TextInputType.number,
-                                ),
-                                const SizedBox(
-                                  width: 100,
-                                  height: 30,
-                                ),
-                                TextField(
-                                    controller: _datecontroller,
-                                    // onTap: ,
-                                    decoration: const InputDecoration(
-                                      icon: Icon(Icons.calendar_today),
-                                      border: OutlineInputBorder(),
-                                      labelText: "Choose Date",
-                                    ),
-                                    readOnly: true,
-                                    onTap: () async {
-                                      DateTime? pickedDate =
-                                          await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(2022),
-                                              lastDate: DateTime(2050));
-                                      if (pickedDate != null) {
-                                        //pickedDate output format => 2021-03-10 00:00:00.000
-                                        String formattedDate =
-                                        DateFormat.yMMMMd('en_US')
-                                                .format(pickedDate);
-                                        print(formattedDate);
-                                        setState(() {
-                                          _datecontroller.text =
-                                              formattedDate; //set output date to TextField value.
-                                        });
-                                      } else {}
-                                    }),
-                                const SizedBox(
-                                  width: 100,
-                                  height: 30,
-                                ),
-                                TextField(
-                                  controller: _notecontroller,
-                                  decoration: const InputDecoration(
-                                    icon: Icon(Icons.note_alt),
-                                    border: OutlineInputBorder(),
-                                    labelText: "Add a Note",
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 100,
-                                  height: 30,
-                                ),
-                                Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      TextButton(
-                                          style: ButtonStyle(
-                                              foregroundColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(Colors.white),
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(Colors.blue),
-                                              padding: MaterialStateProperty
-                                                  .all<EdgeInsets>(
-                                                      EdgeInsets.all(15)),
-                                              shape: MaterialStateProperty.all<
-                                                      RoundedRectangleBorder>(
-                                                  RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(14.0),
-                                                // side: BorderSide(color: Colors.red)
-                                              ))),
-                                          onPressed: () {
-                                            setState(() {
-                                              btnPress = false;
-                                            });
-                                            _addnewExpense();
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text(
-                                            "Add",
-                                            style: TextStyle(fontSize: 15),
-                                          )),
-                                      const SizedBox(
-                                        width: 30,
+                                  title: const Center(
+                                      child: Text("Enter Details")),
+                                  actions: [
+                                    TextField(
+                                      controller: _amtcontroller,
+                                      decoration: InputDecoration(
+                                        icon: Icon(Icons.currency_rupee),
+                                        border: OutlineInputBorder(),
+                                        labelText: "$btnPress",
+                                        errorText:
+                                            validator(_amtcontroller.text)
+                                                ? null
+                                                : "Amount Required",
                                       ),
-                                      TextButton(
-                                          style: ButtonStyle(
-                                              foregroundColor:
-                                                  MaterialStateProperty.all<Color>(
-                                                      Colors.blue),
-                                              padding: MaterialStateProperty
-                                                  .all<EdgeInsets>(
-                                                      EdgeInsets.all(15)),
-                                              shape: MaterialStateProperty.all<
-                                                      RoundedRectangleBorder>(
-                                                  RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(14.0),
-                                                      side: BorderSide(color: Colors.blue)))),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text(
-                                            "Cancel",
-                                            style: TextStyle(fontSize: 15),
-                                          ))
-                                    ])
-                              ],
-                            ))));
+                                      keyboardType: TextInputType.number,
+                                    ),
+                                    const SizedBox(
+                                      width: 100,
+                                      height: 30,
+                                    ),
+                                    TextField(
+                                        controller: _datecontroller,
+                                        // onTap: ,
+                                        decoration: const InputDecoration(
+                                          icon: Icon(Icons.calendar_today),
+                                          border: OutlineInputBorder(),
+                                          labelText: "Choose Date",
+                                        ),
+                                        readOnly: true,
+                                        onTap: () async {
+                                          DateTime? pickedDate =
+                                              await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime(2022),
+                                                  lastDate: DateTime(2050));
+                                          if (pickedDate != null) {
+                                            //pickedDate output format => 2021-03-10 00:00:00.000
+                                            String formattedDate =
+                                                DateFormat.yMMMMd('en_US')
+                                                    .format(pickedDate);
+                                            print(formattedDate);
+                                            setState(() {
+                                              _datecontroller.text =
+                                                  formattedDate; //set output date to TextField value.
+                                            });
+                                          } else {}
+                                        }),
+                                    const SizedBox(
+                                      width: 100,
+                                      height: 30,
+                                    ),
+                                    TextField(
+                                      controller: _notecontroller,
+                                      decoration: const InputDecoration(
+                                        icon: Icon(Icons.note_alt),
+                                        border: OutlineInputBorder(),
+                                        labelText: "Add a Note",
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 100,
+                                      height: 30,
+                                    ),
+                                    Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                              style: ButtonStyle(
+                                                  foregroundColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(Colors.white),
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(Colors.blue),
+                                                  padding: MaterialStateProperty
+                                                      .all<EdgeInsets>(
+                                                          EdgeInsets.all(15)),
+                                                  shape: MaterialStateProperty
+                                                      .all<RoundedRectangleBorder>(
+                                                          RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            14.0),
+                                                    // side: BorderSide(color: Colors.red)
+                                                  ))),
+                                              onPressed: () {
+                                                setState(() {
+                                                  btnPress = false;
+                                                });
+                                                _addnewExpense();
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text(
+                                                "Add",
+                                                style: TextStyle(fontSize: 15),
+                                              )),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          TextButton(
+                                              style: ButtonStyle(
+                                                  foregroundColor:
+                                                      MaterialStateProperty.all<Color>(
+                                                          Colors.blue),
+                                                  padding: MaterialStateProperty
+                                                      .all<EdgeInsets>(
+                                                          EdgeInsets.all(15)),
+                                                  shape: MaterialStateProperty.all<
+                                                          RoundedRectangleBorder>(
+                                                      RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(14.0),
+                                                          side: BorderSide(color: Colors.blue)))),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text(
+                                                "Cancel",
+                                                style: TextStyle(fontSize: 15),
+                                              ))
+                                        ])
+                                  ],
+                                ))));
                   },
                   style: ButtonStyle(
                       foregroundColor:
