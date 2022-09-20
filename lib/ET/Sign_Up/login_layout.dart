@@ -22,6 +22,8 @@ class _LoginState extends State<Login> {
     }
   }
 
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
   bool checker = false;
   bool signuplogin = false;
   bool validateEmail = true;
@@ -45,7 +47,7 @@ class _LoginState extends State<Login> {
   void _loginbtn() async {
     if (signuplogin == false) {
       Users? user = await widget.auth.signInEmail(_email, _pwd);
-      if (user == null) {
+      if (user == null && _key.currentState!.validate()) {
         setState(() {
           validatepwd = false;
           validateEmail = false;
@@ -56,7 +58,8 @@ class _LoginState extends State<Login> {
     } else {
       Users? user =
           await widget.auth.createUserEmailAndPwd(_email, _pwd, _name, _budget);
-      if (user == null) {
+      print("USER BABA: ${user.toString()}");
+      if (user == null && _key.currentState!.validate()) {
         setState(() {
           validatepwd = false;
           validateEmail = false;
@@ -73,7 +76,9 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         title: Text('LOG IN', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
-      body: SingleChildScrollView(
+      body: Form (
+        key: _key,
+    child: SingleChildScrollView(
         child: Container(
           margin: !signuplogin? const EdgeInsets.only(top: 130.0): EdgeInsets.only(top: 50),
           child: Column(
@@ -98,32 +103,46 @@ class _LoginState extends State<Login> {
                   ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-              child: TextField(
+              child: TextFormField(
                 controller: _emailcontrol,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   labelText: "Enter Email",
                   hintText: "John@gmail.com",
-                  errorText: validateEmail? null: "Oops!! Invalid Email",
+                  // errorText: validateEmail? null: "Oops!! Invalid Email",
                   // errorText: _validator(_emailcontrol.text.toString()) ? null : "Email can't be empty",
                 ),
+                validator: (value){
+                  if(value == null || value.isEmpty || !validateEmail)
+                  {
+                    return 'Invalid Email !';
+                  }
+                  return null;
+                },
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-              child: TextField(
+              child: TextFormField(
                 controller: _pwdcontrol,
                 obscureText: true,
                 enableSuggestions: false,
                 autocorrect: false,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   labelText: "Enter Password",
-                  errorText: validatepwd? null: "Oops!! Invalid Password",
+                  // errorText: validatepwd? null: "Oops!! Invalid Password",
                   // errorText: _validator(_pwd) ? null : "Password can't be empty"
                 ),
+                validator: (value){
+                  if(value == null || value.isEmpty || !validatepwd)
+                  {
+                    return 'Invalid Password !';
+                  }
+                  return null;
+                },
                 textInputAction: TextInputAction.done,
               ),
             ),
@@ -185,7 +204,13 @@ class _LoginState extends State<Login> {
                       style: TextButton.styleFrom(
                           textStyle: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
-                      onPressed: _signuplogin,
+                      onPressed: (){
+                        _emailcontrol.text = "";
+                        _pwdcontrol.text = "";
+                        _namecontrol.text = "";
+                        _budgetcontrol.text = "";
+                        _signuplogin();
+                      },
                       child: !signuplogin ? Text("Sign Up") : Text("Login")),
                 )
               ],
@@ -194,6 +219,6 @@ class _LoginState extends State<Login> {
         ),
       ),
       ),
-    );
+    ));
   }
 }
