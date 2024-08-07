@@ -58,7 +58,6 @@ class _LoginState extends State<Login> {
     } else {
       Users? user =
           await widget.auth.createUserEmailAndPwd(_email, _pwd, _name, _budget);
-      print("USER BABA: ${user.toString()}");
       if (user == null && _key.currentState!.validate()) {
         setState(() {
           validatepwd = false;

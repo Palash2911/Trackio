@@ -2,6 +2,9 @@ import 'package:expense_tracker/ET/Services/firebaseAuth.dart';
 import 'package:expense_tracker/ET/Sign_Up/LandingPage_Layout.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'dart:io';
+
 
 class Setting extends StatefulWidget {
   // const Setting({Key? key}) : super(key: key);
@@ -22,6 +25,21 @@ class _SettingState extends State<Setting> {
     Navigator.pushReplacement(
          context ,MaterialPageRoute(builder: (context) => landingPage(auth: widget.auth)));
   }
+
+  Future<void> pdfmaker() async {
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) => pw.Center(
+          child: pw.Text('Hello World!'),
+        ),
+      ),
+    );
+    File('setting_layout.pdf').create(recursive: true);
+    final file = File('setting_layout.pdf');
+    await file.writeAsBytes(await pdf.save());
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +109,7 @@ class _SettingState extends State<Setting> {
                   onPressed: () {
                     // Navigator.of(context).push(MaterialPageRoute(
                     //     builder: (context) => Bottomnav()));
+                    pdfmaker();
                   },
                   child: const Text(
                     "Edit Upcoming Expenses",

@@ -10,6 +10,7 @@ class Users{
   Users({required this.uid});
   final String uid;
 }
+
 abstract class AuthClass{
   Future<Users?> currentUser();
   Future<Users?> signIn();
@@ -121,4 +122,5 @@ class Auth implements AuthClass{
     CollectionReference users = FirebaseFirestore.instance.collection('Users');
     return users.doc(auth?.uid).collection("History").snapshots().map(expenseFromFirestore);
   }
+
 }
